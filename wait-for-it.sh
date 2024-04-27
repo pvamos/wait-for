@@ -1,29 +1,35 @@
 #!/bin/sh
 
-# Use this script to test if a given TCP host/port are available.
-# This script is designed to check the availability of
-#  a TCP host and port combination, before executing a specified command.
+
+# This is a pure bash script that will wait on the availability of a
+#  host and TCP port. 
 #
 # It is useful when it is necessary to wait for a service to start up
 #  in a containerized environment or during deployments,
 #  ensuring that dependent services are available before proceeding.
-# This script supports customizable timeouts, silent operation, and strict mode
-#  checks, allowing for versatile and robust startup or deployment scripts.
+#
+# Since it is a pure bash script, it does not have any external dependencies.
+#
+# Supports customizable timeouts, silent operation, and strict mode checks,
+#  allowing for versatile and robust startup or deployment scripts.
 
 # Usage:
 #   wait-for-it.sh host:port [-s] [-t timeout] [-- command args]
 #     or
 #   wait-for-it.sh -h host -p port [-s] [-t timeout] [-- command args]
+#
+#   -h HOST | -h=HOST | --host=HOST | --host HOST   Host or IP under test
+#   -p PORT | -p=PORT | --port=PORT | --port PORT   TCP port under test
+#                           Alternatively, specify the host and port as host:port
+#
+#   -s | --strict               Only execute subcommand if the test succeeds
+#   -q | --quiet                Don't output any status messages
+
+#   -t TIMEOUT | -t=TIMEOUT | --timeout=TIMEOUT | --timeout TIMEOUT
+#                               Timeout in seconds, zero for no timeout
 # 
-#   -h HOST | --host=HOST | --host HOST   Host or IP under test
-#   -p PORT | --port=PORT | --port PORT   TCP port under test
-#                                          Alternatively, specify the host and port as host:port
-# 
-#   -s | --strict                         Only execute subcommand if the test succeeds
-#   -q | --quiet                          Don't output any status messages
-#   -t TIMEOUT | --timeout=TIMEOUT | --timeout TIMEOUT
-#                                         Timeout in seconds, zero for no timeout
-#   -- COMMAND ARGS                       Execute command with args after the test finishes
+#   -- COMMAND ARGS             Execute command with args after the test finishes
+
 
 # The script is now usable both with Bash and Dash
 #  (a fork of Kenneth Almquist's ash shell integrated to BusyBox).
@@ -81,15 +87,18 @@ Usage:
     or
   $WAITFORIT_cmdname -h host -p port [-s] [-t timeout] [-- command args]
 
-  -h HOST | --host=HOST | --host HOST   Host or IP under test
-  -p PORT | --port=PORT | --port PORT   TCP port under test
-                                         Alternatively, specify the host and port as host:port
+  -h HOST | -h=HOST | --host=HOST | --host HOST   Host or IP under test
+  -p PORT | -p=PORT | --port=PORT | --port PORT   TCP port under test
+                          Alternatively, specify the host and port as host:port
 
-  -s | --strict                         Only execute subcommand if the test succeeds
-  -q | --quiet                          Don't output any status messages
-  -t TIMEOUT | --timeout=TIMEOUT | --timeout TIMEOUT
-                                        Timeout in seconds, zero for no timeout
-  -- COMMAND ARGS                       Execute command with args after the test finishes
+  -s | --strict               Only execute subcommand if the test succeeds
+  -q | --quiet                Don't output any status messages
+
+  -t TIMEOUT | -t=TIMEOUT | --timeout=TIMEOUT | --timeout TIMEOUT
+                              Timeout in seconds, zero for no timeout
+
+  -- COMMAND ARGS             Execute command with args after the test finishes
+
 USAGE
     exit 1
 }
@@ -154,7 +163,7 @@ while [ $# -gt 0 ]; do
         WAITFORIT_HOST="$2"
         shift 2
         ;;
-        --host=*)
+        -h=* | --host=*)
         WAITFORIT_HOST="${1#*=}"
         shift
         ;;
@@ -162,7 +171,7 @@ while [ $# -gt 0 ]; do
         WAITFORIT_PORT="$2"
         shift 2
         ;;
-        --port=*)
+        -p=* | --port=*)
         WAITFORIT_PORT="${1#*=}"
         shift
         ;;
@@ -170,7 +179,7 @@ while [ $# -gt 0 ]; do
         WAITFORIT_TIMEOUT="$2"
         shift 2
         ;;
-        --timeout=*)
+        -t=* | --timeout=*)
         WAITFORIT_TIMEOUT="${1#*=}"
         shift
         ;;
