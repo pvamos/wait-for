@@ -1,11 +1,11 @@
 # wait-for-it
 
-`wait-for-it.sh` is a pure bash script that will wait on the availability of a
- host and TCP port. It is useful when it is necessary to wait for a service
- to start upin a containerized environment or during deployments,
- ensuring that dependent services are available before proceeding.
+`wait-for-it.sh` is a pure bash/dash script that will wait until the
+  availability of a host and TCP port. 
 
-Since it is a pure bash script, it does not have any external dependencies.
+ Useful when it is necessary to wait for a service to start up
+  in a containerized environment or during deployments,
+  ensuring that dependency services are available before proceeding.
 
 Supports customizable timeouts, silent operation, and strict mode checks,
  allowing for versatile and robust startup or deployment scripts.
@@ -19,6 +19,17 @@ Alpine Linux is popular for building small container images for Docker or K8s.
 
 https://en.wikipedia.org/wiki/Almquist_shell
 
+
+## Requirements
+
+Since it is a pure bash/dash script, it does not have any
+ external dependencies on systems with BusyBox, like Alpine Linux,
+ as all commands are provided by BusyBox (through symlinks).
+
+On systems with bash, these external commands are used:
+ basename, date, echo, nc (netcat/ncat), sleep
+
+
 ## Credits and references
 
 Based on the 2016 work of Giles Hall (last updated in 2020),
@@ -27,24 +38,40 @@ Based on the 2016 work of Giles Hall (last updated in 2020),
  Created by Péter Vámos in 2024
   https://github.com/pvamos
   pvamos@gmail.com
-  https://linkedin.com/in/pvamos/
+  https://linkedin.com/in/pvamos
 
 
 ## What has been refactored
 
-The transformation from the initial to the final version of the script focused on making it more reliable, user-friendly, and versatile across different Unix-like environments. The improvements specifically targeted error handling, precise timeout control, efficient network checks, detailed user guidance, and strict adherence to POSIX standards for broader shell compatibility. These enhancements make the script suitable for more complex and critical automation tasks in modern, containerized infrastructures.
+Focused on making it more reliable, user-friendly, and versatile across
+ different Unix-like environments.
+ 
+The improvements specifically targeted error handling, precise timeout control,
+ efficient network checks, detailed user guidance, and strict adherence
+ to POSIX standards for broader shell compatibility.
+These make the script suitable for critical automation tasks
+ in modern, containerized infrastructures.
 
 ### Timeout Implementation
 
-Implemented a precise timeout mechanism using actual elapsed time calculated with `date +%s`. This method ensures that the script adheres strictly to the user-specified timeout regardless of network delays or system load, which could affect loop iteration speed.
+Implemented a precise timeout mechanism using actual elapsed time calculated
+ with `date +%s`. This method ensures that the script adheres strictly to the
+ user-specified timeout regardless of network delays or system load, which
+ could affect loop iteration speed.
 
 ### Argument Parsing and Usage Information
 
-The argument parsing was enhanced to handle both shorthand and long-form arguments robustly, supporting a broader range of input formats. Expanded the usage function to give detailed descriptions of all available options, improving user guidance.
+The argument parsing was enhanced to handle both shorthand and long-form
+ arguments robustly, supporting a broader range of input formats.
+Expanded the usage function to give detailed descriptions of all available
+ options, improving user guidance.
 
 ### Robustness and Compatibility
 
-Rewritten for full POSIX compliance, ensuring that the script can run not only in Bash but also in more restricted shells like Dash / BusyBox fork of Kenneth Almquist's ash shell, which is common in lightweight environments like Docker containers based on Alpine Linux.
+Rewritten for full POSIX compliance, ensuring that the script can run not only
+ in Bash but also in more restricted shells like the Dash / BusyBox fork of
+ Kenneth Almquist's ash shell, which is common in lightweight environments
+ like Docker containers based on Alpine Linux.
 
 
 ## Usage

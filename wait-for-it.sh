@@ -1,17 +1,16 @@
 #!/bin/sh
 
 
-# This is a pure bash script that will wait on the availability of a
-#  host and TCP port. 
+# This is a pure bash/dash script that will wait
+#  until the availability of a host and TCP port. 
 #
-# It is useful when it is necessary to wait for a service to start up
+# Useful when it is necessary to wait for a service to start up
 #  in a containerized environment or during deployments,
-#  ensuring that dependent services are available before proceeding.
-#
-# Since it is a pure bash script, it does not have any external dependencies.
+#  ensuring that dependency services are available before proceeding.
 #
 # Supports customizable timeouts, silent operation, and strict mode checks,
 #  allowing for versatile and robust startup or deployment scripts.
+
 
 # Usage:
 #   wait-for-it.sh host:port [-s] [-t timeout] [-- command args]
@@ -31,7 +30,13 @@
 #   -- COMMAND ARGS             Execute command with args after the test finishes
 
 
-# The script is now usable both with Bash and Dash
+# Since it is a pure bash/dash script, it does not have any
+#  external dependencies on systems with BusyBox, like Alpine Linux,
+#  as all commands are provided by BusyBox (through symlinks).
+# On systems with bash, these external commands are used:
+#  basename, date, echo, nc (netcat/ncat), sleep
+#
+# The script is usable both with Bash and Dash
 #  (a fork of Kenneth Almquist's ash shell integrated to BusyBox).
 #  https://en.wikipedia.org/wiki/Almquist_shell
 # Dash / BusyBox is used in distributions like Alpine Linux, DSLinux,
@@ -45,7 +50,7 @@
 # Created by Péter Vámos in 2024
 #   https://github.com/pvamos
 #   pvamos@gmail.com
-#   https://linkedin.com/in/pvamos/
+#   https://linkedin.com/in/pvamos
 
 
 # MIT License
