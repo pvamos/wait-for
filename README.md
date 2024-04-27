@@ -12,11 +12,12 @@ Supports customizable timeouts, silent operation, and strict mode checks,
 
 The script is now usable both with Bash and Dash
  (a fork of Kenneth Almquist's ash shell integrated to BusyBox).
- https://en.wikipedia.org/wiki/Almquist_shell
+
 Dash / BusyBox is used in distributions like Alpine Linux, DSLinux,
  and Linux-based router firmware such as OpenWrt, Tomato and DD-WRT.
 Alpine Linux is popular for building small container images for Docker or K8s.
 
+https://en.wikipedia.org/wiki/Almquist_shell
 
 ## Credits and references
 
@@ -35,15 +36,15 @@ The transformation from the initial to the final version of the script focused o
 
 ### Timeout Implementation
 
-    Implemented a precise timeout mechanism using actual elapsed time calculated with `date +%s`. This method ensures that the script adheres strictly to the user-specified timeout regardless of network delays or system load, which could affect loop iteration speed.
+Implemented a precise timeout mechanism using actual elapsed time calculated with `date +%s`. This method ensures that the script adheres strictly to the user-specified timeout regardless of network delays or system load, which could affect loop iteration speed.
 
 ### Argument Parsing and Usage Information
 
-    The argument parsing was enhanced to handle both shorthand and long-form arguments robustly, supporting a broader range of input formats. Expanded the usage function to give detailed descriptions of all available options, improving user guidance.
+The argument parsing was enhanced to handle both shorthand and long-form arguments robustly, supporting a broader range of input formats. Expanded the usage function to give detailed descriptions of all available options, improving user guidance.
 
 ### Robustness and Compatibility
 
-    Rewritten for full POSIX compliance, ensuring that the script can run not only in Bash but also in more restricted shells like Dash / BusyBox fork of Kenneth Almquist's ash shell, which is common in lightweight environments like Docker containers based on Alpine Linux.
+Rewritten for full POSIX compliance, ensuring that the script can run not only in Bash but also in more restricted shells like Dash / BusyBox fork of Kenneth Almquist's ash shell, which is common in lightweight environments like Docker containers based on Alpine Linux.
 
 
 ## Usage
