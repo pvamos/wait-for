@@ -261,3 +261,4 @@ elif [ -z "$WAITFOR_CLI" ] && [ "$WAITFOR_RESULT" -eq 1 ]; then
     echoerr "$WAITFOR_cmdname $WAITFOR_HOST:$WAITFOR_PORT - No response in $WAITFOR_TIMEOUT seconds and no command specified."
     exit $WAITFOR_RESULT
 fi
+

@@ -1,4 +1,4 @@
-# wait-for
+# wait-for.sh
 
 `wait-for-it.sh` is a pure bash/dash script that will wait
   until response from a host and TCP port, then execute a command.
@@ -189,3 +189,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
