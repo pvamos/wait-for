@@ -1,3 +1,19 @@
+Copyright (c) 2024 Péter Vámos
+
+  https://github.com/pvamos
+  pvamos@gmail.com
+  https://linkedin.com/in/pvamos
+
+This software is based on "wait-for-it" originally created by Giles Hall
+ (copyright (c) 2016, last updated in 2020),
+ published and available at: https://github.com/vishnubob/wait-for-it
+
+This version includes modifications made by Péter Vámos in 2024,
+ published and available at: https://github.com/pvamos/wait-for
+Both the original and modified software are distributed under
+ the MIT License, which is included below.
+
+
 MIT License
 
 Copyright (c) 2024 Péter Vámos

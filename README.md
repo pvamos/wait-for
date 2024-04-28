@@ -1,11 +1,11 @@
-# wait-for-it
+# wait-for
 
-`wait-for-it.sh` is a pure bash/dash script that will wait until the
-  availability of a host and TCP port. 
+`wait-for-it.sh` is a pure bash/dash script that will wait
+  until response from a host and TCP port, then execute a command.
 
- Useful when it is necessary to wait for a service to start up
-  in a containerized environment or during deployments,
-  ensuring that dependency services are available before proceeding.
+Useful when waitig for a service to start up in a containerized environment,
+ or during deployments, ensuring that dependency services are available
+ before proceeding.
 
 Supports customizable timeouts, silent operation, and strict mode checks,
  allowing for versatile and robust startup or deployment scripts.
@@ -13,11 +13,11 @@ Supports customizable timeouts, silent operation, and strict mode checks,
 The script is now usable both with Bash and Dash
  (a fork of Kenneth Almquist's ash shell integrated to BusyBox).
 
+ https://en.wikipedia.org/wiki/Almquist_shell
+
 Dash / BusyBox is used in distributions like Alpine Linux, DSLinux,
  and Linux-based router firmware such as OpenWrt, Tomato and DD-WRT.
 Alpine Linux is popular for building small container images for Docker or K8s.
-
-https://en.wikipedia.org/wiki/Almquist_shell
 
 
 ## Requirements
@@ -30,15 +30,49 @@ On systems with bash, these external commands are used:
  basename, date, echo, nc (netcat/ncat), sleep
 
 
+## Usage
+
+```text
+ WAIT-FOR.SH bash/dash script by Péter Vámos https://github.com/pvamos/wait-for
+
+   Wait until response from a host and TCP port.
+
+ Usage:
+  wait-for.sh host:port [-s] [-t timeout] [-q] [-- command args]
+    or
+  wait-for.sh -h host -p port [-s] [-t timeout] [-q] [-- command args]
+
+  -h HOST | -h=HOST | --host=HOST | --host HOST   Host or IP under test
+  -p PORT | -p=PORT | --port=PORT | --port PORT   TCP port under test
+                          Alternatively, specify the host and port as host:port
+
+  -s | --strict               Only execute subcommand if the test succeeds
+  -q | --quiet                Don't output any status messages
+
+  -t TIMEOUT | -t=TIMEOUT | --timeout=TIMEOUT | --timeout TIMEOUT
+                              Timeout in seconds, zero for no timeout
+
+  -- COMMAND ARGS             Execute command with args after the test finishes
+```
+
+
 ## Credits and references
 
-Based on the 2016 work of Giles Hall (last updated in 2020),
- published at https://github.com/vishnubob/wait-for-it under MIT license.
+Copyright (c) 2024 Péter Vámos
 
- Created by Péter Vámos in 2024
   https://github.com/pvamos
   pvamos@gmail.com
   https://linkedin.com/in/pvamos
+
+This software is based on "wait-for-it" originally created by Giles Hall
+ (copyright (c) 2016, last updated in 2020),
+ published and available at: https://github.com/vishnubob/wait-for-it
+
+This version includes modifications made by Péter Vámos in 2024,
+ published and available at: https://github.com/pvamos/wait-for
+
+Both the original and modified software are distributed under
+ the MIT License, which is included below.
 
 
 ## What has been refactored
@@ -74,37 +108,15 @@ Rewritten for full POSIX compliance, ensuring that the script can run not only
  like Docker containers based on Alpine Linux.
 
 
-## Usage
-
-```text
-Usage:
-  wait-for-it.sh host:port [-s] [-t timeout] [-- command args]
-    or
-  wait-for-it.sh -h host -p port [-s] [-t timeout] [-- command args]
-
-  -h HOST | -h=HOST | --host=HOST | --host HOST   Host or IP under test
-  -p PORT | -p=PORT | --port=PORT | --port PORT   TCP port under test
-                          Alternatively, specify the host and port as host:port
-
-  -s | --strict               Only execute subcommand if the test succeeds
-  -q | --quiet                Don't output any status messages
-
-  -t TIMEOUT | -t=TIMEOUT | --timeout=TIMEOUT | --timeout TIMEOUT
-                              Timeout in seconds, zero for no timeout
-
-  -- COMMAND ARGS             Execute command with args after the test finishes
-```
-
-
 ## Examples
 
 For example, let's test to see if we can access port 80 on `www.google.com`,
 and if it is available, echo the message `google is up`.
 
 ```text
-$ ./wait-for-it.sh www.google.com:80 -- echo "google is up"
-wait-for-it.sh: waiting 15 seconds for www.google.com:80
-wait-for-it.sh: www.google.com:80 is available after 0 seconds
+$ ./wait-for.sh www.google.com:80 -- echo "google is up"
+2024-04-28T11:28:32,315Z wait-for.sh www.google.com:80 - Timeout parameter not specified, defauting to 15 seconds.
+2024-04-28T11:28:32,352Z wait-for.sh www.google.com:80 - Response after 0 seconds, executing command: 'echo google is up'
 google is up
 ```
 
@@ -112,22 +124,21 @@ You can set your own timeout with the `-t` or `--timeout=` option.  Setting
 the timeout value to 0 will disable the timeout:
 
 ```text
-$ ./wait-for-it.sh -t 0 www.google.com:80 -- echo "google is up"
-wait-for-it.sh: waiting for www.google.com:80 without a timeout
-wait-for-it.sh: www.google.com:80 is available after 0 seconds
+$ ./wait-for.sh -t 0 www.google.com:80 -- echo "google is up"
+2024-04-28T11:28:55,048Z wait-for.sh www.google.com:80 - Timeout parameter value is 0, waiting indefinitely.
+2024-04-28T11:28:55,079Z wait-for.sh www.google.com:80 - Response after 0 seconds, executing command: 'echo google is up'
 google is up
 ```
 
 The subcommand will be executed regardless if the service is up or not.  If you
-wish to execute the subcommand only if the service is up, add the `--strict`
+wish to execute the subcommand only if the service is up, add the `--strict` or `-s`
 argument. In this example, we will test port 81 on `www.google.com` which will
 fail:
 
 ```text
-$ ./wait-for-it.sh www.google.com:81 --timeout=1 --strict -- echo "google is up"
-wait-for-it.sh: waiting 1 seconds for www.google.com:81
-wait-for-it.sh: timeout occurred after waiting 1 seconds for www.google.com:81
-wait-for-it.sh: strict mode, refusing to execute subprocess
+./wait-for.sh www.google.com:81 --timeout=3 --strict -- echo "google is up"
+2024-04-28T11:29:27,304Z wait-for.sh www.google.com:81 - Waiting for 3 seconds.
+2024-04-28T11:29:30,335Z wait-for.sh www.google.com:81 - No response in 3 seconds, strict mode, refusing to execute command: 'echo google is up'
 ```
 
 If you don't want to execute a subcommand, leave off the `--` argument.  This
@@ -135,24 +146,31 @@ way, you can test the exit condition of `wait-for-it.sh` in your own scripts,
 and determine how to proceed:
 
 ```text
-$ ./wait-for-it.sh www.google.com:80
-wait-for-it.sh: waiting 15 seconds for www.google.com:80
-wait-for-it.sh: www.google.com:80 is available after 0 seconds
+$ ./wait-for.sh www.google.com:80
+2024-04-28T11:30:39,702Z wait-for.sh www.google.com:80 - Timeout parameter not specified, defauting to 15 seconds.
+2024-04-28T11:30:39,736Z wait-for.sh www.google.com:80 - Response after 0 seconds and no command specified.
 $ echo $?
 0
-$ ./wait-for-it.sh www.google.com:81
-wait-for-it.sh: waiting 15 seconds for www.google.com:81
-wait-for-it.sh: timeout occurred after waiting 15 seconds for www.google.com:81
+$ ./wait-for.sh www.google.com:81
+2024-04-28T11:31:45,954Z wait-for.sh www.google.com:81 - Timeout parameter not specified, defauting to 15 seconds.
+2024-04-28T11:32:01,134Z wait-for.sh www.google.com:81 - No response in 15 seconds and no command specified.
 $ echo $?
-124
+1
 ```
 
+The silent mode (`--quiet` or `-q`) disables all output from the script:
+
+```text
+$ ./wait-for.sh -s -t 5 -q www.google.com:81 -- echo "google is up"
+$ ./wait-for.sh -s -t 5 -q www.google.com:80 -- echo "google is up"
+google is up
+```
 
 ## License
 
 MIT License
 
-Copyright (c) 2024 Péter Vámos
+Copyright (c) 2024 Péter Vámos  pvamos@gmail.com  https://github.com/pvamos
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
