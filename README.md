@@ -105,7 +105,7 @@ Expanded the usage function to give detailed descriptions of all available
 Rewritten for full POSIX compliance, ensuring that the script can run not only
  in Bash but also in more restricted shells like the Ash / BusyBox fork of
  Kenneth Almquist's ash shell, which is common in lightweight environments
- like Docker containers based on Alpine Linux.
+ like Docker or Kubernetes containers based on Alpine Linux.
 
 
 ## Examples
