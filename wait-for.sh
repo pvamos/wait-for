@@ -48,6 +48,8 @@
 # Alpine Linux is popular for building small container images for Docker or K8s.
 
 
+# Copyright notice:
+#
 # Copyright (c) 2024 Péter Vámos
 #
 #   https://github.com/pvamos
@@ -261,4 +263,3 @@ elif [ -z "$WAITFOR_CLI" ] && [ "$WAITFOR_RESULT" -eq 1 ]; then
     echoerr "$WAITFOR_cmdname $WAITFOR_HOST:$WAITFOR_PORT - No response in $WAITFOR_TIMEOUT seconds and no command specified."
     exit $WAITFOR_RESULT
 fi
-
