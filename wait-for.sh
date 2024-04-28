@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-# This is a pure bash/dash script that will wait
+# This is a pure bash/ash script that will wait
 #  until response from a host and TCP port, then execute a command.
 #
 # Useful when waitig for a service to start up in a containerized environment,
@@ -12,7 +12,7 @@
 #  allowing for versatile and robust startup or deployment scripts.
 
 
-#  WAIT-FOR.SH bash/dash script by Péter Vámos https://github.com/pvamos/wait-for
+#  WAIT-FOR.SH bash/ash script by Péter Vámos https://github.com/pvamos/wait-for
 #
 #    Wait until response from a host and TCP port, then execute a command.
 #
@@ -34,16 +34,16 @@
 #   -- COMMAND ARGS             Execute command with args after the test finishes
 
 
-# Since it is a pure bash/dash script, it does not have any
+# Since it is a pure bash/ash script, it does not have any
 #  external dependencies on systems with BusyBox, like Alpine Linux,
 #  as all commands are provided by BusyBox (through symlinks).
 # On systems with bash, these external commands are used:
 #  `basename`, `date`, `echo`, `expr`, `nc` (netcat/ncat), `sleep`.
 #
-# The script is usable both with Bash and Dash
+# The script is usable both with Bash and Ash
 #  (a fork of Kenneth Almquist's ash shell integrated to BusyBox).
 #  https://en.wikipedia.org/wiki/Almquist_shell
-# Dash / BusyBox is used in distributions like Alpine Linux, DSLinux,
+# Ash / BusyBox is used in distributions like Alpine Linux, DSLinux,
 #  and Linux-based router firmware such as OpenWrt, Tomato and DD-WRT.
 # Alpine Linux is popular for building small container images for Docker or K8s.
 
@@ -105,7 +105,7 @@ usage()
 {
     cat << USAGE >&2
 
- WAIT-FOR.SH bash/dash script by Péter Vámos https://github.com/pvamos/wait-for
+ WAIT-FOR.SH bash/ash script by Péter Vámos https://github.com/pvamos/wait-for
 
    Wait until response from a host and TCP port, then execute a command.
 

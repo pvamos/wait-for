@@ -1,6 +1,6 @@
 # wait-for.sh
 
-`wait-for-it.sh` is a pure bash/dash script that will wait
+`wait-for-it.sh` is a pure bash/ash script that will wait
   until response from a host and TCP port, then execute a command.
 
 Useful when waitig for a service to start up in a containerized environment,
@@ -10,19 +10,19 @@ Useful when waitig for a service to start up in a containerized environment,
 Supports customizable timeouts, silent operation, and strict mode checks,
  allowing for versatile and robust startup or deployment scripts.
 
-The script is now usable both with Bash and Dash
+The script is now usable both with Bash and Ash
  (a fork of Kenneth Almquist's ash shell integrated to BusyBox).
 
  https://en.wikipedia.org/wiki/Almquist_shell
 
-Dash / BusyBox is used in distributions like Alpine Linux, DSLinux,
+Ash / BusyBox is used in distributions like Alpine Linux, DSLinux,
  and Linux-based router firmware such as OpenWrt, Tomato and DD-WRT.
 Alpine Linux is popular for building small container images for Docker or K8s.
 
 
 ## Requirements
 
-Since it is a pure bash/dash script, it does not have any
+Since it is a pure bash/ash script, it does not have any
  external dependencies on systems with BusyBox, like Alpine Linux,
  as all commands are provided by BusyBox (through symlinks).
 
@@ -33,7 +33,7 @@ On systems with bash, these external commands are used:
 ## Usage
 
 ```text
- WAIT-FOR.SH bash/dash script by Péter Vámos https://github.com/pvamos/wait-for
+ WAIT-FOR.SH bash/ash script by Péter Vámos https://github.com/pvamos/wait-for
 
    Wait until response from a host and TCP port, then execute a command.
 
@@ -103,7 +103,7 @@ Expanded the usage function to give detailed descriptions of all available
 ### Robustness and Compatibility
 
 Rewritten for full POSIX compliance, ensuring that the script can run not only
- in Bash but also in more restricted shells like the Dash / BusyBox fork of
+ in Bash but also in more restricted shells like the Ash / BusyBox fork of
  Kenneth Almquist's ash shell, which is common in lightweight environments
  like Docker containers based on Alpine Linux.
 
