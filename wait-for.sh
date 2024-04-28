@@ -38,7 +38,7 @@
 #  external dependencies on systems with BusyBox, like Alpine Linux,
 #  as all commands are provided by BusyBox (through symlinks).
 # On systems with bash, these external commands are used:
-#  basename, date, echo, nc (netcat/ncat), sleep
+#  `basename`, `date`, `echo`, `expr`, `nc` (netcat/ncat), `sleep`.
 #
 # The script is usable both with Bash and Dash
 #  (a fork of Kenneth Almquist's ash shell integrated to BusyBox).
@@ -201,11 +201,13 @@ while [ $# -gt 0 ]; do
         shift
         ;;
         -t | --timeout)
-        WAITFOR_TIMEOUT=$(("$2"))
+        # force WAITFOR_TIMEOUT to be integer
+        WAITFOR_TIMEOUT=$(expr "$2" + 0)
         shift 2
         ;;
         -t=* | --timeout=*)
-        WAITFOR_TIMEOUT=$(("${1#*=}"))
+        # force WAITFOR_TIMEOUT to be integer
+        WAITFOR_TIMEOUT=$(expr "${1#*=}" + 0)
         shift
         ;;
         --)

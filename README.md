@@ -27,7 +27,7 @@ Since it is a pure bash/dash script, it does not have any
  as all commands are provided by BusyBox (through symlinks).
 
 On systems with bash, these external commands are used:
- basename, date, echo, nc (netcat/ncat), sleep
+ `basename`, `date`, `echo`, `expr`, `nc` (netcat/ncat), `sleep`.
 
 
 ## Usage
