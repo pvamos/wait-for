@@ -35,7 +35,7 @@ On systems with bash, these external commands are used:
 ```text
  WAIT-FOR.SH bash/dash script by Péter Vámos https://github.com/pvamos/wait-for
 
-   Wait until response from a host and TCP port.
+   Wait until response from a host and TCP port, then execute a command.
 
  Usage:
   wait-for.sh host:port [-s] [-t timeout] [-q] [-- command args]
