@@ -92,13 +92,24 @@
 # Get the base name of the script itself.
 WAITFOR_cmdname=$(basename "$0")
 
-# Print error messages to stderr with ISO-8601 UTC time, if not in quiet mode.
+# Print error messages to stderr with ISO-8601 UTC time with milliseconds, if not in quiet mode.
 echoerr() {
     if [ "$WAITFOR_QUIET" -ne 1 ]; then
-        echo "$(date +'%Y-%m-%dT%H:%M:%S,%3NZ') $@" 1>&2
+        # This is '2024-05-01T18:26:22,598Z' with coreutils, and '2024-05-01T18:26:22,' with BusyBox
+        current_datetime=$(date -u +'%Y-%m-%dT%H:%M:%S,%3NZ')
+
+        # Check coreutils or BusyBox (i.e., ends with ','?)
+        if [ "${current_datetime: -1}" = "," ]; then
+            # get milliseconds with adjtimex
+            milliseconds=$(adjtimex | awk '/time.tv_usec/ {print substr($2, 1, 3)}')
+            # Append
+            current_datetime="${current_datetime}${milliseconds}Z"
+        fi
+
+        # Print date and message to stderr
+        echo "$current_datetime $@" 1>&2
     fi
 }
-
 
 # Print usage information and exit the script.
 usage()
@@ -234,7 +245,7 @@ fi
 
 # Set a default timeout if not specified (keep 0 if set).
   if [ -z "$WAITFOR_TIMEOUT" ]; then
-      WAITFOR_TIMEOUT=$(("$WAITFOR_DEFAULT"))
+      WAITFOR_TIMEOUT="$WAITFOR_DEFAULT"
       echoerr "$WAITFOR_cmdname $WAITFOR_HOST:$WAITFOR_PORT - Timeout parameter not specified, defauting to $WAITFOR_TIMEOUT seconds."
   else
       # Default timeout specified, check if timeout parameter is not 0.
